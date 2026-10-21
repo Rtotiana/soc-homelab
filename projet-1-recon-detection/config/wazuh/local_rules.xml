@@ -1,0 +1,23 @@
+<!--
+  Règles personnalisées : détection des blocages UFW et des scans de ports
+  Emplacement sur le serveur Wazuh : /var/ossec/etc/rules/local_rules.xml
+  100100 (niveau 4) : un paquet bloqué par UFW
+  100101 (niveau 7) : 10 blocages en 30 s depuis la même IP source = scan probable
+-->
+<group name="local,firewall,ufw,">
+
+  <rule id="100100" level="4">
+    <if_sid>4100</if_sid>
+    <action>BLOCK</action>
+    <description>UFW: Firewall block event.</description>
+    <group>firewall_drop,</group>
+  </rule>
+
+  <rule id="100101" level="7" frequency="10" timeframe="30">
+    <if_matched_sid>100100</if_matched_sid>
+    <description>UFW: Multiple firewall block events from same source.</description>
+    <same_srcip />
+    <group>firewall_drop,</group>
+  </rule>
+
+</group>

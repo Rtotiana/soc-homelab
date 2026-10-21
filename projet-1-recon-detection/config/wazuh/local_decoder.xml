@@ -1,0 +1,14 @@
+<!--
+  Décodeur personnalisé : journaux du pare-feu UFW (Ubuntu Client)
+  Emplacement sur le serveur Wazuh : /var/ossec/etc/decoders/local_decoder.xml
+  Extrait : action, srcip, dstip, protocol, srcport, dstport.
+  Note : le décodage doit être COMPLET (type firewall), sinon l'événement
+  est écarté avant les règles (voir RAPPORT.md, section Dépannage).
+-->
+<decoder name="ufw-block">
+  <parent>kernel</parent>
+  <type>firewall</type>
+  <prematch>^[UFW \S+] IN=</prematch>
+  <regex>^[UFW (\S+)] \.+ SRC=(\S+) DST=(\S+) \.+ PROTO=(\w+) SPT=(\d+) DPT=(\d+)</regex>
+  <order>action,srcip,dstip,protocol,srcport,dstport</order>
+</decoder>
