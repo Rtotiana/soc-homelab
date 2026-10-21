@@ -1,0 +1,22 @@
+# --- Fichiers système (Windows / macOS / éditeurs) ---
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+
+# --- Confidentialité : ne jamais publier ---
+# Clés d'enrôlement des agents Wazuh
+client.keys
+# Captures réseau brutes (peuvent contenir bien plus que prévu)
+*.pcap
+*.pcapng
+# Clés, certificats, secrets
+*.key
+*.pem
+.env
+
+# --- Logs bruts et archives (on publie des extraits, pas les fichiers complets) ---
+*.log
+*.zip
+*.ova
+*.vmdk

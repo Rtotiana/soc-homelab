@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="595" viewBox="0 0 900 595" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-labelledby="titre desc">
+  <title id="titre">Schéma réseau du home lab SOC</title>
+  <desc id="desc">Lab VMware isolé du réseau domestique, sur un segment unique 10.0.0.0/24 : pfSense (LAN 10.0.0.254, WAN 10.0.0.61), Kali attaquant (10.0.0.50) qui scanne l'Ubuntu Client (10.0.0.52) et le contrôleur de domaine Windows (10.0.0.10), dont les agents envoient leurs logs au SIEM Wazuh (10.0.0.60).</desc>
+
+  <defs>
+    <marker id="fleche-rouge" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#dc2626"/>
+    </marker>
+    <marker id="fleche-bleue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/>
+    </marker>
+  </defs>
+
+  <!-- Fond opaque : lisible en thème clair comme sombre -->
+  <rect width="900" height="595" fill="#ffffff"/>
+
+  <!-- Réseau domestique, hors du lab -->
+  <rect x="330" y="12" width="240" height="40" rx="8" fill="#e5e7eb" stroke="#6b7280" stroke-width="1.5"/>
+  <text x="450" y="37" text-anchor="middle" font-size="14" fill="#374151">Réseau domestique</text>
+  <line x1="450" y1="52" x2="450" y2="95" stroke="#9ca3af" stroke-width="2" stroke-dasharray="4 4"/>
+  <path d="M441,64 L459,82 M459,64 L441,82" stroke="#dc2626" stroke-width="3" stroke-linecap="round"/>
+  <text x="470" y="78" font-size="12" fill="#b91c1c">aucune connexion (isolation vérifiée)</text>
+
+  <!-- Cadre du lab -->
+  <rect x="20" y="95" width="860" height="485" rx="12" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+  <text x="40" y="122" font-size="15" font-weight="bold" fill="#1e293b">VMware Workstation · LAN segment isolé · 10.0.0.0/24</text>
+
+  <!-- pfSense -->
+  <rect x="330" y="140" width="240" height="62" rx="8" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5"/>
+  <text x="450" y="165" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">pfSense · passerelle</text>
+  <text x="450" y="187" text-anchor="middle" font-size="13" fill="#334155">LAN 10.0.0.254 · WAN 10.0.0.61</text>
+  <line x1="450" y1="202" x2="450" y2="240" stroke="#334155" stroke-width="2"/>
+
+  <!-- Segment unique -->
+  <line x1="60" y1="240" x2="840" y2="240" stroke="#334155" stroke-width="5" stroke-linecap="round"/>
+  <text x="840" y="232" text-anchor="end" font-size="12" fill="#475569">segment unique (réseau « plat »)</text>
+
+  <!-- Raccordements au segment -->
+  <line x1="140" y1="240" x2="140" y2="290" stroke="#334155" stroke-width="2"/>
+  <line x1="450" y1="240" x2="450" y2="290" stroke="#334155" stroke-width="2"/>
+  <line x1="760" y1="240" x2="760" y2="290" stroke="#334155" stroke-width="2"/>
+
+  <!-- Kali (attaquant) -->
+  <rect x="50" y="290" width="180" height="86" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="2"/>
+  <text x="140" y="316" text-anchor="middle" font-size="14" font-weight="bold" fill="#991b1b">Kali Linux</text>
+  <text x="140" y="338" text-anchor="middle" font-size="13" fill="#7f1d1d">Attaquant</text>
+  <text x="140" y="360" text-anchor="middle" font-size="13" fill="#7f1d1d">10.0.0.50</text>
+
+  <!-- Ubuntu Client (cible Linux) -->
+  <rect x="360" y="290" width="180" height="86" rx="8" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5"/>
+  <text x="450" y="316" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">Ubuntu Client</text>
+  <text x="450" y="338" text-anchor="middle" font-size="12" fill="#334155">Cible Linux · UFW + agent</text>
+  <text x="450" y="360" text-anchor="middle" font-size="13" fill="#334155">10.0.0.52</text>
+
+  <!-- Windows Server (contrôleur de domaine) -->
+  <rect x="660" y="290" width="200" height="86" rx="8" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5"/>
+  <text x="760" y="316" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">Windows Server</text>
+  <text x="760" y="338" text-anchor="middle" font-size="12" fill="#334155">DC Active Directory · agent</text>
+  <text x="760" y="360" text-anchor="middle" font-size="13" fill="#334155">10.0.0.10</text>
+
+  <!-- Reconnaissance (Nmap) -->
+  <line x1="230" y1="320" x2="356" y2="320" stroke="#dc2626" stroke-width="2.5" marker-end="url(#fleche-rouge)"/>
+  <text x="293" y="312" text-anchor="middle" font-size="12" fill="#b91c1c">scan Nmap</text>
+  <path d="M230,352 H262 V420 H740 V381" fill="none" stroke="#dc2626" stroke-width="2.5" marker-end="url(#fleche-rouge)"/>
+  <text x="600" y="413" text-anchor="middle" font-size="12" fill="#b91c1c">scan Nmap</text>
+
+  <!-- Remontée des logs vers Wazuh -->
+  <line x1="420" y1="376" x2="420" y2="466" stroke="#2563eb" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#fleche-bleue)"/>
+  <path d="M820,376 V510 H594" fill="none" stroke="#2563eb" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#fleche-bleue)"/>
+  <text x="826" y="452" font-size="12" fill="#1d4ed8">logs</text>
+  <text x="428" y="452" font-size="12" fill="#1d4ed8">logs</text>
+
+  <!-- Ubuntu Server : SIEM Wazuh -->
+  <rect x="310" y="470" width="280" height="84" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="450" y="496" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e3a8a">Ubuntu Server · SIEM Wazuh</text>
+  <text x="450" y="518" text-anchor="middle" font-size="12" fill="#1e40af">manager · indexer · dashboard</text>
+  <text x="450" y="540" text-anchor="middle" font-size="13" fill="#1e40af">10.0.0.60</text>
+
+  <!-- Légende -->
+  <text x="50" y="478" font-size="13" font-weight="bold" fill="#1e293b">Légende</text>
+  <line x1="50" y1="500" x2="90" y2="500" stroke="#dc2626" stroke-width="2.5" marker-end="url(#fleche-rouge)"/>
+  <text x="100" y="504" font-size="12" fill="#334155">Reconnaissance (Nmap)</text>
+  <line x1="50" y1="526" x2="90" y2="526" stroke="#2563eb" stroke-width="2.5" stroke-dasharray="7 5" marker-end="url(#fleche-bleue)"/>
+  <text x="100" y="530" font-size="12" fill="#334155">Logs des agents → Wazuh</text>
+</svg>
